@@ -1,7 +1,13 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+require 'rest-client'
+require 'json'
+
+Brewhouse.destroy_all
+User.destroy_all
+
+base_url = 'https://raw.githubusercontent.com/openbrewerydb/openbrewerydb/master/breweries.json'
+data = RestClient.get base_url
+parsed_data = JSON.parse(data)
+
+parsed_data.map do |brewhouse|
+    Brewhouse.create(name:  brewhouse["name"], city: brewhouse["city"], postal_code: brewhouse["postal_code"], url: brewhouse["website_url"], phone: brewhouse["phone"])
+end 
