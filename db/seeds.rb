@@ -3,6 +3,8 @@ require 'json'
 
 Brewhouse.destroy_all
 User.destroy_all
+Favorite.destroy_all
+
 
 base_url = 'https://raw.githubusercontent.com/openbrewerydb/openbrewerydb/master/breweries.json'
 data = RestClient.get base_url
